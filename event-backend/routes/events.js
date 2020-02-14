@@ -1,7 +1,7 @@
 const express = require('express');
 const statusCode = require('http-status');
 const Event = require('../controllers/eventController');
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', function(req, res) {
   return Event.getEvents(function(err, events) {

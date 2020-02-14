@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var eventSchema = require('../models/eventModel');
+const mongoose = require('mongoose');
+const eventSchema = require('../models/eventModel');
 const statusCode = require('http-status');
 const Event = mongoose.exports = mongoose.model('Event', eventSchema);
 

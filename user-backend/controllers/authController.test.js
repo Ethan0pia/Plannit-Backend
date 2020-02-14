@@ -6,7 +6,7 @@ const salt = bcrypt.genSaltSync(SALT_ROUND);
 describe('Checks password hashing and comparision', () => {
   const myPassword = '123';
   const fakePassword = '345';
-  var hash = bcrypt.hashSync(myPassword, salt);
+  let hash = bcrypt.hashSync(myPassword, salt);
 
   test('password is hashed', done => {
     expect(authController.hashPassword(myPassword, salt)).resolves.not.toEqual(
