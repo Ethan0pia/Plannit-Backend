@@ -1,0 +1,14 @@
+version: "3"
+services:
+  event-backend:
+    build: ./event-backend
+    image: "registry.fullstack.shick/fullstack/event-backend:${SERVICE_VERSION:-workingcopy}"
+    environment:
+      - EVENT_DB_SERVER=event-db
+      - _TEST_FLAG=1
+  user-backend:
+    build: ./user-backend
+    image: "registry.fullstack.shick/fullstack/user-backend:${SERVICE_VERSION:-workingcopy}"
+    environment:
+      - USER_DB_SERVER=user-db
+      - _TEST_FLAG=1

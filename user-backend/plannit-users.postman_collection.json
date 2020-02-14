@@ -1,0 +1,842 @@
+{
+  "info": {
+    "_postman_id": "0c6a3016-3514-44a7-a2b4-f2792e50ced9",
+    "name": "user api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "add user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c421230e-4d3e-43bb-a69e-46444dc70707",
+            "exec": [
+              "pm.test(\"User created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"username\":\"jo\",\n \"password\":\"123\",\n \"email\": \"jo@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create user exist",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"User already exist\", function () {",
+              "    pm.response.to.have.status(409);",
+              "    pm.response.to.have.json;",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"username\":\"jo\",\n \"password\":\"123\",\n \"email\": \"jo@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "invalid email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"invalid email\", function () {",
+              "    pm.response.to.have.status(400);",
+              "    pm.response.to.have.jsonBody;",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"username\":\"Tom\",\n \"password\":\"bid\",\n \"email\": \"valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login (general)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"has a cookie with a name token\", function () {",
+              "    pm.cookies.has(\"token\");",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"_id\", jsonData._id);",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"email\": \"jo@valid.com\",\n \"password\":\"123\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/login",
+          "host": ["{{uri}}"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get user by id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"general user can see their own profile\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.response.to.have.json;",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add Other user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c421230e-4d3e-43bb-a69e-46444dc70707",
+            "exec": [
+              "pm.test(\"User created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"other_id\", jsonData._id);",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"username\":\"jo1\",\n \"password\":\"123\",\n \"email\": \"jo1@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get other user by id (non admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"general user can see their own profile\", function () {",
+              "    pm.response.to.have.status(401);",
+              "    pm.response.to.have.json;",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}/{{other_id}}",
+          "host": ["{{uri}}"],
+          "path": ["{{other_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "NOT admin get all users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"general user cannot see all users\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"update password\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"password\":\"abc\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}/password",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}", "password"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login old password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Logging with old password\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"email\": \"jo@valid.com\",\n \"password\":\"123\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/login",
+          "host": ["{{uri}}"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login new password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Logging with new password\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"_id\", jsonData._id);",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"email\": \"jo@valid.com\",\n \"password\":\"abc\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/login",
+          "host": ["{{uri}}"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "logout",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"logout destroy the cookie\", function () {",
+              "    pm.expect(pm.cookies.get('token')).to.equal(undefined);",
+              "});",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}/auth/logout",
+          "host": ["{{uri}}"],
+          "path": ["auth", "logout"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update profile (loggedout)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Update profile: after logout\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"firstName\":\"John\",\n \"email\": \"newjo@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}/profile",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "log in",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Logging with new password\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"_id\", jsonData._id);",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"email\": \"jo@valid.com\",\n \"password\":\"abc\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/login",
+          "host": ["{{uri}}"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update profile (loggedIn)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Update profile:change email and password\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.response.to.have.jsonBody(\"email\",\"newjo@valid.com\");",
+              "    pm.response.to.have.jsonBody(\"firstName\",\"John\");",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"firstName\":\"John\",\n \"email\": \"newjo@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}/profile",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update profile (email duplicate)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Update profile: with duplicate email\", function () {",
+              "    pm.response.to.have.status(409);",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"firstName\":\"John\",\n \"email\": \"jo1@valid.com\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}/profile",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete user by id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Delete user by id\", function () {",
+              "    pm.response.to.have.json;",
+              "     pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get deleted user by id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"Get user after deletion\", function () {",
+              "    pm.response.to.have.status(400);",
+              "    pm.response.to.have.json;",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}/{{_id}}",
+          "host": ["{{uri}}"],
+          "path": ["{{_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "admin login (created on mongo cli)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"admin loggedin\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\":\"admin@gmail.com\",\n \"password\":\"123\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}/login",
+          "host": ["{{uri}}"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "admin get all users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f4c7bc9c-e3d4-4cdf-b3cf-5997cd347eba",
+            "exec": [
+              "pm.test(\"general user cannot see all users\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.response.to.have.json;",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}",
+          "host": ["{{uri}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "2df34c07-e4c0-4a4e-8014-e99d01a773f0",
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "04722f98-0b9e-41de-9df0-5e2eba27199a",
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "02fd6f27-5295-4ae7-966a-fd8d1b00503f",
+      "key": "uri",
+      "value": "localhost:4000/api/v1.1.0/users",
+      "type": "string"
+    }
+  ]
+}

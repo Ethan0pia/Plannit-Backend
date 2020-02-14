@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+  event-backend:
+    build: ./event-backend
+    image: "registry.fullstack.shick/fullstack/event-backend:${SERVICE_VERSION:-workingcopy}"
+    ports:
+      - "4000"
+    environment:
+      - EVENT_DB_SERVER=event-db
+    depends_on:
+      - event-db
+  user-backend:
+    build: ./user-backend
+    image: "registry.fullstack.shick/fullstack/user-backend:${SERVICE_VERSION:-workingcopy}"
+    ports:
+      - "4000"
+    environment:
+      - USER_DB_SERVER=user-db
+    depends_on:
+      - user-db
+  orchestrator:
+    build: ./orchestrator
+    image: "registry.fullstack.shick/fullstack/orchestrator:${SERVICE_VERSION:-workingcopy}"
+    ports:
+      - "4000:3000"
+    depends_on:
+      - event-backend
+      - user-backend
+  event-db:
+    image: mongo:4
+  user-db:
+    image: mongo:4
+    ports:
+      - "47017:27017"

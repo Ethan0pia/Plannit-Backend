@@ -1,0 +1,440 @@
+{
+  "info": {
+    "_postman_id": "87ea0031-1c7f-4b32-a9d5-ae11f7abbb53",
+    "name": "events",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Events",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "55a6e062-1aff-4bd0-911b-6e91977a94c5",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ebdc46da-f80c-48e7-9f3a-506bc94d25ca",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.environment.set(\"first_id\", pm.response.json()._id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {\n        \"name\": \"second\",\n        \"date\": \"2025-12-17T08:24:00.000Z\",\n        \"description\": \"A fun game of cards.\",\n        \"blurb\": \"Something\",\n        \"category\": \"cards\",\n        \"location\": \"TCS cafeteria\",\n        \"private\": false,\n        \"items\": [\n            {\n                \"items\": [],\n                \"_id\": \"5c102cbe13538a1ab600e696\",\n                \"listName\": \"Food\",\n                \"listContents\": [\n                    \"pizza\",\n                    \"turkey\",\n                    \"subs\"\n                ]\n            },\n            {\n                \"items\": [],\n                \"_id\": \"5c102cbe13538a1ab600e695\",\n                \"listName\": \"Games\",\n                \"listContents\": [\n                    \"poker\",\n                    \"war\",\n                    \"pitch\"\n                ]\n            }\n        ],\n        \"food\": true,\n        \"organizer_id\": \"123123\",\n        \"organizer_username\": \"User's Name\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Single Event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "54dcc137-979e-4bc4-b6b8-45882c502b07",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/event/{{first_id}}",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "event", "{{first_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Single Event: bad id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f6870ee1-f8d5-44e0-8349-63a424763d96",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/event/1231123",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "event", "1231123"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Short Events",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c0f77442-e778-4f2a-872f-b19ee88ca463",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/short/0/6",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "short", "0", "6"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "286fee49-dd31-44d6-85db-a30bdfb39218",
+            "exec": [
+              "pm.test(\"Status 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"_id\":\"{{first_id}}\",\n\t\"name\":\"Cards\",\n\t\"date\":\"2025-12-17T08:24:00.000Z\",\n\t\"description\":\"A fun game of cards for people.\",\n\t\"category\":\"cards\",\n\t\"organizer_name\":\"Ethan0pia\",\n\t\"location\":\"TCS cafeteria\",\n\t\"private\":false,\n\t\"items\":[\n\t\t\t{\"listName\":\"Food\",\"listContents\":[\"pizza\",\"turkey\",\"subs\"]},\n\t\t\t{\"listName\":\"Games\",\"listContents\":[\"poker\",\"war\",\"pitch\"]}\n\t\t],\n\t\"food\": false,\n        \"organizer_id\": \"123123\",\n        \"organizer_username\": \"User's Name\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Event: bad user id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c5337c96-5a19-4946-ba47-a188ee49a61f",
+            "exec": [
+              "pm.test(\"Status 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Cookie",
+            "value": "user_id=123123",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"_id\":\"{{first_id}}\",\n\t\"name\":\"Cards\",\n\t\"date\":\"2025-12-17T08:24:00.000Z\",\n\t\"description\":\"A fun game of cards.awdawdawdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsadadawdasdwdasdwdasdwawdasdasdwadasdawd\",\n\t\"category\":\"cards\",\n\t\"organizer_name\":\"Ethan0pia\",\n\t\"location\":\"TCS cafeteria\",\n\t\"private\":false,\n\t\"items\":[\n\t\t\t{\"listName\":\"Food\",\"listContents\":[\"pizza\",\"turkey\",\"subs\"]},\n\t\t\t{\"listName\":\"Games\",\"listContents\":[\"poker\",\"war\",\"pitch\"]}\n\t\t],\n\t\"food\": false,\n\t\"organizer_id\": \"12313\",\n    \"organizer_username\": \"User's Name\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Event: missing key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "10ddcdb8-62a2-4549-951a-6dc006d4f2ce",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"_id\":\"{{first_id}}\",\n\t\"date\":\"2025-12-17T08:24:00.000Z\",\n\t\"description\":\"A fun game of cards.awdawdawdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsadadawdasdwdasdwdasdwawdasdasdwadasdawd\",\n\t\"category\":\"cards\",\n\t\"organizer_name\":\"Ethan0pia\",\n\t\"location\":\"TCS cafeteria\",\n\t\"private\":false,\n\t\"items\":[\n\t\t\t{\"listName\":\"Food\",\"listContents\":[\"pizza\",\"turkey\",\"subs\"]},\n\t\t\t{\"listName\":\"Games\",\"listContents\":[\"poker\",\"war\",\"pitch\"]}\n\t\t],\n\t\"food\": false,\n    \"organizer_id\": \"123123\",\n    \"organizer_username\": \"User's Name\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Event: bad event id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "913c1dbe-6a21-47ee-8b07-8391b010d49a",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"_id\":\"123123\",\n\t\"name\":\"Cards\",\n\t\"date\":\"2025-12-17T08:24:00.000Z\",\n\t\"description\":\"A fun game of cards.awdawdawdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsadadawdasdwdasdwdasdwawdasdasdwadasdawd\",\n\t\"category\":\"cards\",\n\t\"organizer_name\":\"Ethan0pia\",\n\t\"location\":\"TCS cafeteria\",\n\t\"private\":false,\n\t\"items\":[\n\t\t\t{\"listName\":\"Food\",\"listContents\":[\"pizza\",\"turkey\",\"subs\"]},\n\t\t\t{\"listName\":\"Games\",\"listContents\":[\"poker\",\"war\",\"pitch\"]}\n\t\t],\n\t\"food\": false,\n\t\"organizer_id\": \"123123\",\n    \"organizer_username\": \"User's Name\"\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c7572159-d9be-4b76-b68b-075dec04590b",
+            "exec": [
+              "pm.test(\"Status 410\", function () {",
+              "    pm.response.to.have.status(410);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"organizer_id\": \"123123\",\n\t\"role\": 0\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/{{first_id}}",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "{{first_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Event: check deleted",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f11044a8-bcc8-42f2-bf8d-11fbee72dc35",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/event/{{first_id}}",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "event", "{{first_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Event: bad event id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "7c05d4b4-b37f-410c-8e35-181c029bab10",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"organizer_id\": \"123123\",\n\t\"role\": 0\n}"
+        },
+        "url": {
+          "raw": "{{uri}}{{api_version}}/events/123123",
+          "host": ["{{uri}}{{api_version}}"],
+          "path": ["events", "123123"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
